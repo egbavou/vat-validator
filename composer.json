@@ -16,7 +16,7 @@
         "psr/http-message": "^1.1 || ^2.0"
     },
     "require-dev": {
-        "dragonbe/vies": "^2.3",
+        "dragonbe/vies": "^2.3.2",
         "guzzlehttp/guzzle": "^7.8",
         "illuminate/support": "^12.0 || ^13.0",
         "illuminate/translation": "^12.0 || ^13.0",

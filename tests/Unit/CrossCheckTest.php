@@ -1,5 +1,6 @@
 <?php
 
+// Documented divergences are calibrated on dragonbe/vies 2.3.2.
 declare(strict_types=1);
 
 use DragonBe\Vies\Validator\ValidatorInterface;
