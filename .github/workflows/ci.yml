@@ -1,0 +1,73 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.3', '8.4', '8.5']
+        laravel: ['none', '12', '13']
+    name: PHP ${{ matrix.php }} / Laravel ${{ matrix.laravel }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: soap
+          tools: composer:v2
+          coverage: none
+      - name: Select core-only dependencies
+        if: matrix.laravel == 'none'
+        run: composer remove --dev illuminate/support illuminate/validation illuminate/translation orchestra/testbench --no-update --no-interaction
+      - name: Select Laravel 12
+        if: matrix.laravel == '12'
+        run: composer require --dev 'illuminate/support:^12.0' 'illuminate/validation:^12.0' 'illuminate/translation:^12.0' 'orchestra/testbench:^10.0' --no-update --no-interaction
+      - name: Select Laravel 13
+        if: matrix.laravel == '13'
+        run: composer require --dev 'illuminate/support:^13.0' 'illuminate/validation:^13.0' 'illuminate/translation:^13.0' 'orchestra/testbench:^11.0' --no-update --no-interaction
+      - run: composer install --prefer-dist --no-interaction
+      - name: Test core without Laravel
+        if: matrix.laravel == 'none'
+        run: vendor/bin/pest --testsuite=core
+      - name: Test Laravel integration
+        if: matrix.laravel != 'none'
+        run: vendor/bin/pest
+
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: soap
+          tools: composer:v2
+          coverage: none
+      - run: composer install --prefer-dist --no-interaction
+      - run: composer validate --strict
+      - run: vendor/bin/phpstan analyse
+      - run: vendor/bin/pint --test
+
+  lowest:
+    runs-on: ubuntu-latest
+    name: PHP 8.3 / Laravel 12 / lowest dependencies
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: soap
+          tools: composer:v2
+          coverage: none
+      - name: Select Laravel 12
+        run: composer require --dev 'illuminate/support:^12.0' 'illuminate/validation:^12.0' 'illuminate/translation:^12.0' 'orchestra/testbench:^10.0' --no-update --no-interaction
+      - run: composer update --prefer-lowest --prefer-stable --prefer-dist --no-interaction
+      - run: vendor/bin/pest

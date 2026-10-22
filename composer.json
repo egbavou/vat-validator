@@ -1,0 +1,61 @@
+{
+    "name": "egbavou/vat-validator",
+    "description": "Offline VAT number validation (EU-27, XI, GB, CH, NO) with an optional VIES existence check and Laravel validation rules.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": ["vat", "vat-validator", "vies", "tva", "eu", "validation", "laravel"],
+    "authors": [
+        {
+            "name": "Egbavou"
+        }
+    ],
+    "require": {
+        "php": "^8.3",
+        "psr/http-client": "^1.0",
+        "psr/http-factory": "^1.0",
+        "psr/http-message": "^1.1 || ^2.0"
+    },
+    "require-dev": {
+        "dragonbe/vies": "^2.3",
+        "guzzlehttp/guzzle": "^7.8",
+        "illuminate/support": "^12.0 || ^13.0",
+        "illuminate/translation": "^12.0 || ^13.0",
+        "illuminate/validation": "^12.0 || ^13.0",
+        "laravel/pint": "^1.24",
+        "orchestra/testbench": "^10.0 || ^11.0",
+        "pestphp/pest": "^3.8 || ^4.0",
+        "phpstan/phpstan": "^2.1"
+    },
+    "suggest": {
+        "illuminate/support": "Required for the Laravel validation rules (^12.0 or ^13.0).",
+        "guzzlehttp/guzzle": "PSR-18 client wired automatically by the Laravel integration (^7.8)."
+    },
+    "autoload": {
+        "psr-4": {
+            "Egbavou\\VatValidator\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Egbavou\\VatValidator\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Egbavou\\VatValidator\\Laravel\\VatValidatorServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        },
+        "sort-packages": true
+    },
+    "scripts": {
+        "test": "pest",
+        "analyse": "phpstan analyse",
+        "format": "pint"
+    }
+}
