@@ -3,6 +3,7 @@
     "description": "Offline VAT number validation (EU-27, XI, GB, CH, NO) with an optional VIES existence check and Laravel validation rules.",
     "type": "library",
     "license": "MIT",
+    "homepage": "https://github.com/egbavou/vat-validator",
     "keywords": ["vat", "vat-validator", "vies", "tva", "eu", "validation", "laravel"],
     "authors": [
         {
@@ -57,5 +58,15 @@
         "test": "pest",
         "analyse": "phpstan analyse",
         "format": "pint"
-    }
+    },
+    "support": {
+        "issues": "https://github.com/egbavou/vat-validator/issues",
+        "source": "https://github.com/egbavou/vat-validator"
+    },
+    "funding": [
+        {
+            "type": "github",
+            "url": "https://github.com/sponsors/egbavou"
+        }
+    ]
 }
